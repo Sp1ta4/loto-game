@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "prefer-const": "error",
+    "curly": ["error", "all"],
+    "indent": ["warn", 2],
+    "max-len": ["error", {"code": 120}],
+    "semi": ["error", "always"],
+    "max-params": ["warn", {"max": 3}],
+    "no-empty": "error",
+    "no-magic-numbers": "warn"
+  }
+}
