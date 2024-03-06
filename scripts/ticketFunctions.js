@@ -1,18 +1,22 @@
-function createTicketMatrix() {
+function createTicketMatrix(arrayOfNumbers) {
   const ticketMatrix = [
     [],
     [],
     []
   ];
+  const pack = [...arrayOfNumbers];
   for (let i = 0; i < 3; i++) {
     let maxEmpty = 4;
     let numbersCountInRow = 0;
-    for (let k = 0; k < 9; k++) {
-      const currentColArray = k === 0 ? numbersPackForTicket.slice(+(k + '0'), +((k + 1) + '0') - 1) : numbersPackForTicket.slice(+(k + '0') - 1, +((k + 1) + '0') - 1);
+    for (let k = 1; k <= 9; k++) {
+      debugger
+      let arrayMinIndex = 1 * k;
+      let arrayMaxIndex = arrayMinIndex + 8;
+      const currentColArray = pack.slice(arrayMinIndex, arrayMaxIndex);
       if (k === 4) {
         if (!checkFourPreviousIsNotEmpty(ticketMatrix[i], k)) {
           if (checkThreePreviousIsEmpty(ticketMatrix[i], k) || checkRandomChance()) {
-            fillCurrentBoxAndChangeCount(ticketMatrix[i], k, currentColArray);
+            pack.splice(pack.indexOf(fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray)), 1);
             numbersCountInRow++;
             continue;
           }
@@ -28,7 +32,7 @@ function createTicketMatrix() {
       }
       if (numbersCountInRow < 5) {
         if (checkRandomChance() || maxEmpty === 0 || checkThreePreviousIsEmpty(ticketMatrix[i], k)) {
-          fillCurrentBoxAndChangeCount(ticketMatrix[i], k, currentColArray);
+          pack.splice(pack.indexOf(fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray)), 1)
           numbersCountInRow++;
         } else {
           leaveBlank(ticketMatrix[i], k);
@@ -60,9 +64,10 @@ function checkFourPreviousIsNotEmpty(array, index) {
   return isFourPreviousIsNotEmpty ? true : false;
 };
 
-function fillCurrentBoxAndChangeCount(array, index, arrayOfColumnNumbers) {
+function fillCurrentBoxAndChangeArray(array, index, arrayOfColumnNumbers) {
   const number = getRandomNumberFromPack(arrayOfColumnNumbers);
   array[index] = (number);
+  return number
 };
 
 function leaveBlank(array, index) {
