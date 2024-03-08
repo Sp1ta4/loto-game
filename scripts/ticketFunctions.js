@@ -4,19 +4,15 @@ function createTicketMatrix(arrayOfNumbers) {
     [],
     []
   ];
-  const pack = [...arrayOfNumbers];
   for (let i = 0; i < 3; i++) {
     let maxEmpty = 4;
     let numbersCountInRow = 0;
-    for (let k = 1; k <= 9; k++) {
-      debugger
-      let arrayMinIndex = 1 * k;
-      let arrayMaxIndex = arrayMinIndex + 8;
-      const currentColArray = pack.slice(arrayMinIndex, arrayMaxIndex);
+    for (let k = 0; k < 9; k++) {
+      const currentColArray = arrayOfNumbers[k];
       if (k === 4) {
         if (!checkFourPreviousIsNotEmpty(ticketMatrix[i], k)) {
           if (checkThreePreviousIsEmpty(ticketMatrix[i], k) || checkRandomChance()) {
-            pack.splice(pack.indexOf(fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray)), 1);
+            fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray);
             numbersCountInRow++;
             continue;
           }
@@ -32,7 +28,7 @@ function createTicketMatrix(arrayOfNumbers) {
       }
       if (numbersCountInRow < 5) {
         if (checkRandomChance() || maxEmpty === 0 || checkThreePreviousIsEmpty(ticketMatrix[i], k)) {
-          pack.splice(pack.indexOf(fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray)), 1)
+          fillCurrentBoxAndChangeArray(ticketMatrix[i], k, currentColArray);
           numbersCountInRow++;
         } else {
           leaveBlank(ticketMatrix[i], k);
@@ -50,24 +46,27 @@ function checkRandomChance() {
 };
 
 function checkThreePreviousIsEmpty(array, index) {
-  const isThreePreviousEmpty = !array[index - 3] &&
-    !array[index - 2] &&
-    !array[index - 1]
-  return isThreePreviousEmpty;
+  // debugger
+  const isThreePreviousEmpty = array.length ? !!array[index - 1] &&
+    !!array[index - 2] &&
+    !!array[index - 3] : false
+  return isThreePreviousEmpty ? true : false;
 };
 
 function checkFourPreviousIsNotEmpty(array, index) {
-  const isFourPreviousIsNotEmpty = array[index - 1] &&
+  const isFourPreviousIsNotEmpty = array[index - 4] &&
     array[index - 3] &&
     array[index - 2] &&
-    array[index - 4]
+    array[index - 1]
   return isFourPreviousIsNotEmpty ? true : false;
 };
 
 function fillCurrentBoxAndChangeArray(array, index, arrayOfColumnNumbers) {
   const number = getRandomNumberFromPack(arrayOfColumnNumbers);
+  const numIndex = arrayOfColumnNumbers.findIndex(num => num === number);
+  arrayOfColumnNumbers.splice(numIndex, 1);
   array[index] = (number);
-  return number
+  return number;
 };
 
 function leaveBlank(array, index) {

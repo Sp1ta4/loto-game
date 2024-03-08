@@ -1,4 +1,4 @@
-function timer(difficultyLevel) {
+function timer(difficultyLevel, timerElem) {
   let time;
   switch (difficultyLevel) {
     case '1':
@@ -11,13 +11,13 @@ function timer(difficultyLevel) {
       time = 600;
       break;
   }
-  setInterval(updateTimer, 1000)
+  setInterval(() => timerElem.innerHTML = updateTimer(), 1000);
   function updateTimer() {
     const minutes = Math.floor(time / 60);
     let seconds = time % 60;
     seconds = seconds < 10 ? '0' + seconds : seconds;
-    timerElem.innerHTML = `${minutes}:${seconds}`;;
     time--;
+    return `${minutes}:${seconds}`;
   }
 }
 
