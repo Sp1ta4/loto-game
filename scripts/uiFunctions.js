@@ -1,11 +1,19 @@
-function fillTicketElements(arrayOfNumbers) {
+function fillTicketElements(arrayOfNumbers, handlerClick, carNumber) {
   const ticket = document.getElementsByClassName('ticket')[0];
-  const numbersElement = arrayOfNumbers.map(row => {
-    const result = [];
+  const numbersElement = arrayOfNumbers.reduce((arr, row, index) => {
     for (let i = 0; i < row.length; i++) {
-      result.push(`<div class="number-box">${row[i]}</div>`);
+      console.log(row[i]?.checked);
+      const elem = document.createElement('div')
+      elem.onclick = () => handlerClick(index, i);
+      elem.classList.add('number-box');
+      if(row[i]?.checked) {
+        elem.classList.add('checked');
+      }
+      elem.innerText = row[i]?.number ?? '';
+      arr.push(elem);
     }
-    return result.join('');
-  });
-  ticket.innerHTML = numbersElement.join('');
+    return arr;
+  }, []);
+  ticket.innerHTML = '';
+  ticket.append(...numbersElement);
 }

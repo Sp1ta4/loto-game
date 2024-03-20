@@ -70,6 +70,6 @@ function fillCurrentBoxAndChangeArray(array, index, arrayOfColumnNumbers) {
 };
 
 function leaveBlank(array, index) {
-  array[index] = ' ';
+  array[index] = null;
 };
 

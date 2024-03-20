@@ -10,6 +10,7 @@ const timerElem = document.querySelector('#timer-elem');
 let currentNum;
 const numbersPack = generateNumberPack();
 const numbersPackForTicket = generateNumbersForTicket();
+let ticketData = [];
 
 function generateNumberPack() {
   const pack = [];
@@ -24,19 +25,22 @@ function generateNumbersForTicket() {
     ticket[i] = [];
     for (let k = 0; k <= 9; k++) {
       const number = k + i * 10
-      number && ticket[i].push(number);
+      number && ticket[i].push({
+        number,
+        checked: false
+      });
     }
   }
   return ticket;
 }
 
 allNumberBoxes.forEach(box => {
-  box.addEventListener('click', (event) => {
-    if (checkIsCurrentNumber(+event.target.innerHTML)) {
-      event.target.classList.remove('active');
-      event.target.classList.add('checked');
-    };
-  });
+  // box.addEventListener('click', (event) => {
+  //   if (checkIsCurrentNumber(+event.target.innerHTML)) {
+  //     event.target.classList.remove('active');
+  //     event.target.classList.add('checked');
+  //   };
+  // });
 })
 const playerPack = [];
 let isLogged = false
@@ -51,9 +55,17 @@ function getRandomNumberFromPack(pack) {
   return currentNum;
 }
 
+function check(row, col) {
+  if (ticketData[row][col] && ticketData[row][col].number === currentNum) {
+    ticketData[row][col].checked = true;
+    fillTicketElements(ticketData, check);
+  }
+}
+
 function onStart() {
   timer(range.value, timerElem);
-  fillTicketElements(createTicketMatrix(numbersPackForTicket));
+  ticketData = createTicketMatrix(numbersPackForTicket);
+  fillTicketElements(ticketData, check, currentNum);
   addTicketRemoveMenu();
   startGettingNumbers()
 }
