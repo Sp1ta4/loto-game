@@ -10,7 +10,7 @@ const timerElem = document.querySelector('#timer-elem');
 let currentNum;
 const numbersPack = generateNumberPack();
 const numbersPackForTicket = generateNumbersForTicket();
-
+const ticket = createTicketMatrix(numbersPackForTicket);
 function generateNumberPack() {
   const pack = [];
   for (let i = 1; i < 90; i++) {
@@ -30,14 +30,6 @@ function generateNumbersForTicket() {
   return ticket;
 }
 
-allNumberBoxes.forEach(box => {
-  box.addEventListener('click', (event) => {
-    if (checkIsCurrentNumber(+event.target.innerHTML)) {
-      event.target.classList.remove('active');
-      event.target.classList.add('checked');
-    };
-  });
-})
 const playerPack = [];
 let isLogged = false
 let score = 0;
@@ -53,7 +45,7 @@ function getRandomNumberFromPack(pack) {
 
 function onStart() {
   timer(range.value, timerElem);
-  fillTicketElements(createTicketMatrix(numbersPackForTicket));
+  fillTicketElements(ticket);
   addTicketRemoveMenu();
   startGettingNumbers()
 }

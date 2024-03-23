@@ -65,11 +65,11 @@ function fillCurrentBoxAndChangeArray(array, index, arrayOfColumnNumbers) {
   const number = getRandomNumberFromPack(arrayOfColumnNumbers);
   const numIndex = arrayOfColumnNumbers.findIndex(num => num === number);
   arrayOfColumnNumbers.splice(numIndex, 1);
-  array[index] = (number);
+  array[index] = ({ number, checked: false });
   return number;
 };
 
 function leaveBlank(array, index) {
-  array[index] = ' ';
+  array[index] = null;
 };
 
