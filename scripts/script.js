@@ -10,7 +10,12 @@ const timerElem = document.querySelector('#timer-elem');
 let currentNum;
 const numbersPack = generateNumberPack();
 const numbersPackForTicket = generateNumbersForTicket();
-const ticket = createTicketMatrix(numbersPackForTicket);
+const ticket = new Ticket();
+const playerPack = [];
+let score = 0;
+scoreElem.innerHTML = score;
+
+
 function generateNumberPack() {
   const pack = [];
   for (let i = 1; i < 90; i++) {
@@ -30,37 +35,34 @@ function generateNumbersForTicket() {
   return ticket;
 }
 
-const playerPack = [];
-let isLogged = false
-let score = 0;
-
-scoreElem.innerHTML = score;
-
-function getRandomNumberFromPack(pack) {
-  const randomIndex = Math.floor(Math.random() * pack.length);
-  const currentNum = pack[randomIndex];
-  pack.splice(randomIndex, 1);
-  return currentNum;
-}
-
 function onStart() {
-  timer(range.value, timerElem);
+  timer(timerElem);
   fillTicketElements(ticket);
   addTicketRemoveMenu();
   startGettingNumbers()
 }
 
 function startGettingNumbers() {
+  let changeTime;
+  switch (range.value) {
+    case '1':
+      changeTime = 10;
+      break;
+    case '2':
+      changeTime = 7;
+      break;
+    case '3':
+      changeTime = 5;
+      break;
+  }
   getNumber();
   setInterval(() => {
-    clearActiveClasses()
     getNumber();
-  }, 1000 * 10);
+  }, 1000 * changeTime);
 
   function getNumber() {
-    currentNum = getRandomNumberFromPack(numbersPack);
+    currentNum = ticket.getRandomNumberFromPack(numbersPack);
     currentNumber.innerHTML = currentNum;
-    checkPlayerNumbers(currentNum);
   }
 }
 
@@ -75,16 +77,8 @@ function addTicketRemoveMenu() {
   }, 1501);
 }
 
-function checkPlayerNumbers(number) {
-  if (playerPack.some(num => num === number)) {
-    const currentBox = document.getElementById(number);
-    currentBox.classList.add('active');
-    return true;
-  }
-  return false;
-}
-function checkIsCurrentNumber(number) {
 
+function checkIsCurrentNumber(number) {
   if (currentNum === number) {
     score += 1000;
     changeScoreElem();
@@ -95,13 +89,4 @@ function checkIsCurrentNumber(number) {
 
 function changeScoreElem() {
   scoreElem.innerHTML = score;
-}
-
-function clearActiveClasses() {
-  allNumberBoxes.forEach(box => box.classList.remove('active'))
-}
-
-function acceptAvatar(imageUrl) {
-  console.log(imageUrl);
-  isLogged = true;
 }

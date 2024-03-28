@@ -1,17 +1,8 @@
-function timer(difficultyLevel, timerElem) {
-  let time;
-  switch (difficultyLevel) {
-    case '1':
-      time = 900;
-      break;
-    case '2':
-      time = 720;
-      break;
-    case '3':
-      time = 600;
-      break;
-  }
-  setInterval(() => timerElem.innerHTML = updateTimer(), 1000);
+function timer(timerElem) {
+  let time = 900;
+
+  setInterval(() => timerElem.textContent = updateTimer(), 1000);
+
   function updateTimer() {
     const minutes = Math.floor(time / 60);
     let seconds = time % 60;
